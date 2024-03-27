@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use ErrorException;
+
 /**
  * Start App
  */
@@ -34,6 +36,21 @@ class Main
         $files2 = glob(realpath(ROOT . '/Controllers') . '/**/*.php');
 
         $files = array_merge_recursive($files, $files2);
-        var_dump($files);
+
+        foreach ($files as $file) {
+            $file = substr($file, 1);
+            $file = str_replace('/', '\\', $file);
+            $file = str_replace('.php', '', $file);
+
+            $class = ucfirst($file);
+
+            if (!class_exists($class)) {
+                throw new ErrorException("La class $class n'existe pas, vérifier le namespace ou le nom du fichier");
+            }
+
+            $methods = get_class_methods($class);
+
+            var_dump($methods);
+        }
     }
 }
