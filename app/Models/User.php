@@ -10,9 +10,18 @@ class User extends Model
         protected ?string $lastName = null,
         protected ?string $email = null,
         protected ?string $password = null,
+        protected ?array $roles = null,
 
     ) {
         $this->table = 'users';
+    }
+
+    public function findByEmail(string $email): self|bool
+    {
+        return $this->fetchHydrate(
+            $this->runQuery("SELECT * FROM $this->table WHERE email = :email", ['email' => $email])
+                ->fetch()
+        );
     }
 
     /**
@@ -133,5 +142,33 @@ class User extends Model
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    /**
+     * Get the value of roles
+     *
+     * @return ?array
+     */
+    public function getRoles(): ?array
+    {
+        $this->roles[] = "ROLE_USER";
+
+        return array_unique($this->roles);
+    }
+
+    /**
+     * Set the value of roles
+     *
+     * @param ?array $roles
+     *
+     * @return self
+     */
+    public function setRoles(?array $roles): self
+    {
+        $roles[] = 'ROLE_USER';
+
+        $this->roles = array_unique($roles);
+
+        return $this;
     }
 }
