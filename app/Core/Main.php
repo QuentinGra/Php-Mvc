@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use ErrorException;
+use ReflectionMethod;
 
 /**
  * Start App
@@ -50,7 +51,22 @@ class Main
 
             $methods = get_class_methods($class);
 
-            var_dump($methods);
+            foreach ($methods as $method) {
+                $attributes = (new ReflectionMethod($class, $method))->getAttributes(Route::class);
+
+                foreach ($attributes as $attribute) {
+                    $route = $attribute->newInstance();
+                    $route->setController($class)->setAction($method);
+
+                    $this->routeur->addRoute([
+                        'url' => $route->getUrl(),
+                        'name' => $route->getName(),
+                        'controller' => $route->getController(),
+                        'action' => $route->getAction(),
+                        'methods' => $route->getMethods(),
+                    ]);
+                }
+            }
         }
     }
 }
