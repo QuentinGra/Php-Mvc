@@ -11,8 +11,10 @@ abstract class BaseController
      * @param string $path The path of the view to render
      * @return void
      */
-    protected function render(string $path): void
+    protected function render(string $path, array $data = []): void
     {
+        extract($data);
+
         ob_start();
         require_once ROOT . '/Views/' . $path;
         $content = ob_get_clean();

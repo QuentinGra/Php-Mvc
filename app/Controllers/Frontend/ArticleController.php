@@ -13,6 +13,11 @@ class ArticleController extends BaseController
     {
         $article = (new Article)->find($id);
 
-        $this->render('Frontend/Articles/show.php');
+        $this->render('Frontend/Articles/show.php', [
+            'article' => $article,
+            'meta' => [
+                'title' => $article->getTitle(),
+            ],
+        ]);
     }
 }
