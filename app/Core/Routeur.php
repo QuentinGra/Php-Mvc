@@ -24,6 +24,7 @@ class Routeur
 
     public function handle(string $url, string $method): void
     {
+        var_dump($this->routes);
         // On boucle sur le tableau des routes disponibles
         foreach ($this->routes as $route) {
             // On vérifie si l'url de la route correspond à l'url du navigateur

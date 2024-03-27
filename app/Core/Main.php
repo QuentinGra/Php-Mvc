@@ -16,7 +16,7 @@ class Main
     }
     public function start(): void
     {
-        $uri = $_GET['q'];
+        $uri = $_SERVER['REQUEST_URI'];
 
         if (!empty($uri) && $uri !== '/' && $uri[-1] === '/') {
             $uri = substr($uri, 0, -1);
