@@ -11,7 +11,7 @@ class SecurityController extends BaseController
     #[Route('/login', 'app.login', ['GET', 'POST'])]
     public function login(): void
     {
-        $form = new LoginForm;
+        $form = new LoginForm('/login');
 
         $this->render('Security/login.php', [
             'form' => $form->createView(),

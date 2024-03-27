@@ -6,9 +6,9 @@ use App\Core\Form;
 
 class LoginForm extends Form
 {
-    public function __construct()
+    public function __construct(string $action)
     {
-        $this->startForm('/login', 'POST', [
+        $this->startForm($action, 'POST', [
             'class' => 'card p-3 w-50 mx-auto',
             'id' => 'form-login',
             'formnovalidate' => true
