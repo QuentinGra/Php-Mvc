@@ -31,6 +31,10 @@ class LoginForm extends Form
                 'required' => true
             ])
             ->endDiv()
+            ->addButton('Connexion', [
+                'class' => 'btn btn-primary',
+                'type' => 'submit',
+            ])
             ->endForm();
     }
 }
