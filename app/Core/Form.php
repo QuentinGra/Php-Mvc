@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-class Form
+abstract class Form
 {
     /**
      * Stock le code HTML du formulaire en chaine de caractère
