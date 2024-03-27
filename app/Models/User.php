@@ -24,6 +24,28 @@ class User extends Model
         );
     }
 
+    public function login(): self
+    {
+        $_SESSION['user'] = [
+            'id' => $this->id,
+            'email' => $this->email,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'roles' => $this->getRoles(),
+        ];
+
+        return $this;
+    }
+
+    public function logout(): self
+    {
+        if (isset($_SESSION['user'])) {
+            unset($_SESSION['user']);
+        }
+
+        return $this;
+    }
+
     /**
      * Set the value of id
      *

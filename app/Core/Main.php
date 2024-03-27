@@ -16,6 +16,8 @@ class Main
     }
     public function start(): void
     {
+        session_start();
+
         $uri = $_SERVER['REQUEST_URI'];
 
         if (!empty($uri) && $uri !== '/' && $uri[-1] === '/') {

@@ -17,7 +17,15 @@ class SecurityController extends BaseController
         if ($form->validate($_POST, ['email', 'password'])) {
             $user = (new User)->findByEmail($_POST['email']);
 
-            var_dump($user);
+            if ($user && password_verify($_POST['password'], $user->getPassword())) {
+                $user->login();
+
+                $this->redirect('/');
+            } else {
+                $_SESSION['messages']['danger'] = "Identifiants invalides";
+            }
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $_SESSION['messages']['danger'] = "Veuillez remplir tous les champs obligatoires";
         }
 
         $this->render('Security/login.php', [

@@ -21,4 +21,11 @@ abstract class BaseController
 
         require_once ROOT . '/Views/base.php';
     }
+
+    protected function redirect(string $url, int $code = 302): void
+    {
+        http_response_code($code);
+        header("Location: $url");
+        exit();
+    }
 }
