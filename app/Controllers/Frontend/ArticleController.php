@@ -3,12 +3,15 @@
 namespace App\Controllers\Frontend;
 
 use App\Core\Route;
+use App\Models\Article;
 
 class ArticleController
 {
-    #[Route('/article/details/([0-9]+)', 'app.articles.show', ['GET'])]
+    #[Route('/articles/details/([0-9]+)', 'app.articles.show', ['GET'])]
     public function show(int $id): void
     {
-        echo "Page de détails de l'article $id";
+        $article = (new Article)->find($id);
+
+        var_dump($article);
     }
 }

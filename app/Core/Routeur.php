@@ -34,7 +34,6 @@ class Routeur
                 && in_array($method, $route['methods'])
             ) {
 
-                var_dump($matches);
                 // On récupère le nom du controller dans la route
                 $controller = $route['controller'];
 

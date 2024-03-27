@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Frontend;
 
 use App\Core\Route;
 
@@ -9,6 +9,6 @@ class HomeController
     #[Route('/', 'app.home', ['GET'])]
     public function index(): void
     {
-        echo 'Page d\'accueil';
+        require_once ROOT . '/Views/Frontend/home.php';
     }
 }
