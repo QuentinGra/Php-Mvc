@@ -35,4 +35,14 @@ class SecurityController extends BaseController
             ]
         ]);
     }
+
+    #[Route('/logout', 'app.logout', ['GET'])]
+    public function logout(): void
+    {
+        if (!empty($_SESSION['user'])) {
+            unset($_SESSION['user']);
+        }
+
+        $this->redirect('/');
+    }
 }

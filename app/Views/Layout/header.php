@@ -12,6 +12,17 @@
                         <a class="nav-link" href="#">Articles</a>
                     </li>
                 </ul>
+                <ul class="navbar-nav ms-auto">
+                    <?php if (!empty($_SESSION['user'])) : ?>
+                        <li class="nav-item">
+                            <a href="/logout" class="btn btn-danger">Déconnexion</a>
+                        </li>
+                    <?php else : ?>
+                        <li class="nav-item">
+                            <a href="/login" class="btn btn-outline-light">Connexion</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </nav>
     </div>
