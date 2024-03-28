@@ -1,4 +1,4 @@
-<header class="sticky-top  bg-primary">
+<header class="sticky-top  bg-success">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-sm navbar-dark">
             <a class="navbar-brand" href="/">My MVC App</a>
