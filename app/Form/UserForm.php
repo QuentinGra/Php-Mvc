@@ -21,7 +21,7 @@ class UserForm extends Form
                 'id' => 'firstName',
                 'placeholder' => 'John',
                 'required' => true,
-                'value' => $user->getFirstName() ?: null,
+                'value' => $user ? $user->getFirstName() : null,
             ])
             ->endDiv()
             ->startDiv(['class' => 'col-md-6'])
@@ -31,7 +31,7 @@ class UserForm extends Form
                 'id' => 'lastName',
                 'placeholder' => 'Doe',
                 'required' => true,
-                'value' => $user->getLastName() ?: null,
+                'value' => $user ? $user->getLastName() : null,
             ])
             ->endDiv()
             ->endDiv()
@@ -42,7 +42,7 @@ class UserForm extends Form
                 'id' => 'email',
                 'placeholder' => 'john@example.com',
                 'required' => true,
-                'value' => $user->getEmail() ?: null,
+                'value' => $user ? $user->getEmail() : null,
             ])
             ->endDiv()
             ->startDiv(['class' => 'mb-3'])
@@ -51,10 +51,10 @@ class UserForm extends Form
                 'class' => 'form-control',
                 'id' => 'password',
                 'placeholder' => 'S3CR3T',
-                'required' => true
+                'required' => $user ? false : true,
             ])
             ->endDiv()
-            ->addButton('S\'inscrire', ['class' => 'btn btn-primary'])
+            ->addButton($user ? 'Modifier' : 'S\'inscrire', ['class' => 'btn btn-primary'])
             ->endForm();
     }
 }
