@@ -14,6 +14,18 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <?php if (!empty($_SESSION['user'])) : ?>
+                        <?php if (in_array('ROLE_ADMIN', $_SESSION['user']['roles'])) : ?>
+                            <div class="dropdown me-3">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="triggerId">
+                                    <a class="dropdown-item" href="/admin/users">Users</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Articles</a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <a href="/logout" class="btn btn-danger">Déconnexion</a>
                         </li>

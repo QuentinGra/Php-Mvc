@@ -4,6 +4,9 @@ namespace App\Core;
 
 class Routeur
 {
+    private const ADMIN_PATH = '/admin';
+    private const REDIRECT_LOGIN_PATH = '/login';
+
     public function __construct(
         private array $routes = []
     ) {
@@ -24,6 +27,15 @@ class Routeur
 
     public function handle(string $url, string $method): void
     {
+        if (preg_match('~^' . self::ADMIN_PATH . '~', $url)) {
+            if (empty($_SESSION['user']) || !in_array('ROLE_ADMIN', $_SESSION['user']['roles'])) {
+                $_SESSION['messages']['danger'] = "Vous n'avez pas les droits pour accéder à cette page";
+
+                http_response_code(403);
+                header('Location: ' . self::REDIRECT_LOGIN_PATH);
+                exit();
+            }
+        }
 
         // On boucle sur le tableau des routes disponibles
         foreach ($this->routes as $route) {

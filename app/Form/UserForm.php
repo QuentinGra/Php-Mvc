@@ -3,14 +3,15 @@
 namespace App\Form;
 
 use App\Core\Form;
+use App\Models\User;
 
-class RegisterForm extends Form
+class UserForm extends Form
 {
-    public function __construct(string $action)
+    public function __construct(string $action, ?User $user = null)
     {
         $this->startForm($action, 'POST', [
             'class' => 'card p-3 w-75 mx-auto',
-            'id' => 'register-form',
+            'id' => 'user-form',
         ])
             ->startDiv(['class' => 'row mb-3'])
             ->startDiv(['class' => 'col-md-6'])
@@ -19,7 +20,8 @@ class RegisterForm extends Form
                 'class' => 'form-control',
                 'id' => 'firstName',
                 'placeholder' => 'John',
-                'required' => true
+                'required' => true,
+                'value' => $user ? $user->getFirstName() : null,
             ])
             ->endDiv()
             ->startDiv(['class' => 'col-md-6'])
@@ -28,7 +30,8 @@ class RegisterForm extends Form
                 'class' => 'form-control',
                 'id' => 'lastName',
                 'placeholder' => 'Doe',
-                'required' => true
+                'required' => true,
+                'value' => $user ? $user->getLastName() : null,
             ])
             ->endDiv()
             ->endDiv()
@@ -38,7 +41,8 @@ class RegisterForm extends Form
                 'class' => 'form-control',
                 'id' => 'email',
                 'placeholder' => 'john@example.com',
-                'required' => true
+                'required' => true,
+                'value' => $user ? $user->getEmail() : null,
             ])
             ->endDiv()
             ->startDiv(['class' => 'mb-3'])
@@ -47,10 +51,10 @@ class RegisterForm extends Form
                 'class' => 'form-control',
                 'id' => 'password',
                 'placeholder' => 'S3CR3T',
-                'required' => true
+                'required' => $user ? false : true,
             ])
             ->endDiv()
-            ->addButton('S\'inscrire', ['class' => 'btn btn-primary'])
+            ->addButton($user ? 'Modifier' : 'S\'inscrire', ['class' => 'btn btn-primary'])
             ->endForm();
     }
 }
