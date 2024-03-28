@@ -18,6 +18,9 @@
                             <a href="/logout" class="btn btn-danger">Déconnexion</a>
                         </li>
                     <?php else : ?>
+                        <li class="nav-item me-3">
+                            <a href="/register" class="btn btn-outline-light">Inscription</a>
+                        </li>
                         <li class="nav-item">
                             <a href="/login" class="btn btn-outline-light">Connexion</a>
                         </li>
