@@ -80,5 +80,20 @@ class UserController extends BaseController
     public function delete(): void
     {
         $user = $this->user->find(!empty($_POST['id']) ? $_POST['id'] : 0);
+
+        if (!$user) {
+            $_SESSION['messages']['danger'] = "User not found";
+            $this->redirect('/admin/users');
+        }
+
+        if (hash_equals($_SESSION['token'], !empty($_POST['token']) ? $_POST['token'] : '')) {
+            $user->delete();
+
+            $_SESSION['messages']['success'] = "User supprimé avec succès";
+        } else {
+            $_SESSION['messages']['danger'] = "Invalide token CSRF";
+        }
+
+        $this->redirect('/admin/users');
     }
 }
