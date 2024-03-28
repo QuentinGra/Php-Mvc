@@ -21,7 +21,11 @@
                         <td>
                             <div class="d-flex gap-4 flex-wrap align-items-center justify-content-center">
                                 <a href="/admin/users/<?= $user->getId(); ?>/edit" class="btn btn-warning">Modifier</a>
-                                <a href="" class="btn btn-danger">Supprimer</a>
+                                <form action="/admin/users/delete" method="post" onsubmit="return confirm('Êtes-vous sùr de vouloir supprimer cet utilisateur ?')">
+                                    <input type="hidden" name="id" value="<?= $user->getId(); ?>">
+                                    <input type="hidden" name="token" value="<?= $_SESSION['token']; ?>">
+                                    <button class="btn btn-danger">Supprimer</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
