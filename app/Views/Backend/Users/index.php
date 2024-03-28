@@ -20,7 +20,7 @@
                         <td><?= implode(', ', $user->getRoles()); ?></td>
                         <td>
                             <div class="d-flex gap-4 flex-wrap align-items-center justify-content-center">
-                                <a href="" class="btn btn-warning">Modifier</a>
+                                <a href="/admin/users/<?= $user->getId(); ?>/edit" class="btn btn-warning">Modifier</a>
                                 <a href="" class="btn btn-danger">Supprimer</a>
                             </div>
                         </td>

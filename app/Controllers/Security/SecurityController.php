@@ -4,8 +4,8 @@ namespace App\Controllers\Security;
 
 use App\Core\Route;
 use App\Models\User;
+use App\Form\UserForm;
 use App\Form\LoginForm;
-use App\Form\RegisterForm;
 use App\Core\BaseController;
 
 class SecurityController extends BaseController
@@ -50,7 +50,7 @@ class SecurityController extends BaseController
     #[Route('/register', 'app.register', ['GET', 'POST'])]
     public function register(): void
     {
-        $form = new RegisterForm('/register');
+        $form = new UserForm('/register');
 
         if ($form->validate($_POST, ['firstName', 'lastName', 'email', 'password'])) {
             $firstName = trim(strip_tags($_POST['firstName']));
