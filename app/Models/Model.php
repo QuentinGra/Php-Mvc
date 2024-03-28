@@ -176,7 +176,12 @@ abstract class Model extends Db
 
             // On vérifie que le setter exist dans l'objet
             if (method_exists($this, $setter)) {
-                $this->$setter($value);
+                if ($key === 'roles') {
+                    $value = $value ? json_decode($value) : null;
+                    $this->$setter($value);
+                } else {
+                    $this->$setter($value);
+                }
             }
         }
 
