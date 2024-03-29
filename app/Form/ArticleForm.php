@@ -24,11 +24,11 @@ class ArticleForm extends Form
             ->endDiv()
             ->startDiv(['class' => 'mb-3'])
             ->addLabel('content', 'Content', ['class' => 'form-label'])
-            ->addTextArea('content', $article ? $article->getContent() : '', [
+            ->addTextArea('content', [
                 'class' => 'form-control',
                 'id' => 'content',
                 'required' => true,
-            ])
+            ], $article ? $article->getContent() : null)
             ->endDiv()
             ->startDiv(['class' => 'form-check mb-3'])
             ->addLabel('enable', 'Actif', ['class' => 'form-check-label'])

@@ -129,7 +129,7 @@ abstract class Form
      * @param array $attributs
      * @return self
      */
-    public function addTextArea(string $name, string $text, array $attributs = []): self
+    public function addTextArea(string $name, array $attributs = [], ?string $text = null): self
     {
         $this->formCode .= "<textarea name=\"$name\"";
 
