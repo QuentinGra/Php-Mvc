@@ -36,7 +36,6 @@ class ArcticleController extends BaseController
             $title = trim(strip_tags($_POST['title']));
             $content = trim(strip_tags($_POST['content']));
             $enable = isset($_POST['enable']) ? 1 : 0;
-            $userId = $_SESSION['user']['id'];
 
             if (!$this->article->findOneBy(['title' => $title])) {
                 $this->article
@@ -44,7 +43,7 @@ class ArcticleController extends BaseController
                     ->setContent($content)
                     ->setEnable($enable)
                     ->setCreatedAt(new DateTime())
-                    ->setUserId($userId)
+                    ->setUserId($_SESSION['user']['id'])
                     ->create();
 
                 $_SESSION['messages']['success'] = "Vous avez créé un article";
@@ -76,10 +75,11 @@ class ArcticleController extends BaseController
 
         $form = new ArticleForm($_SERVER['REQUEST_URI'], $article);
 
-        if ($form->validate($_POST, ['title', 'content'])) {
+        if ($form->validate($_POST, ['title', 'content', 'user'])) {
             $title = trim(strip_tags($_POST['title']));
             $content = trim(strip_tags($_POST['content']));
             $enable = isset($_POST['enable']) ? 1 : 0;
+            $userId = $_POST['user'];
 
             if ($title !== $article->getTitle() && !$this->article->findOneBy(['title' => $title])) {
                 $_SESSION['messages']['danger'] = "Ce titre est déjà utilisé par un autre article";
@@ -89,6 +89,7 @@ class ArcticleController extends BaseController
                     ->setContent($content)
                     ->setEnable($enable)
                     ->setUpdatedAt(new DateTime)
+                    ->setUserId($userId)
                     ->update();
 
                 $_SESSION['messages']['success'] = "Article modifié avec succès";
