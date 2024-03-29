@@ -24,7 +24,7 @@ class ArticleForm extends Form
             ->endDiv()
             ->startDiv(['class' => 'mb-3'])
             ->addLabel('content', 'Content', ['class' => 'form-label'])
-            ->addTextArea('content', $article ? $article->getContent() : null, [
+            ->addTextArea('content', $article ? $article->getContent() : '', [
                 'class' => 'form-control',
                 'id' => 'content',
                 'required' => true,
@@ -38,7 +38,7 @@ class ArticleForm extends Form
                 'checked' => $article ? $article->getEnable() : null,
             ])
             ->endDiv()
-            ->addButton('Ajouter', ['class' => 'btn btn-primary'])
+            ->addButton($article ? 'Modifier' : 'Ajouter', ['class' => 'btn btn-primary'])
             ->endForm();
     }
 }
