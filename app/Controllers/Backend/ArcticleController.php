@@ -88,6 +88,7 @@ class ArcticleController extends BaseController
                     ->setEnable($enable)
                     ->setUpdatedAt(new DateTime)
                     ->update();
+
                 $_SESSION['messages']['success'] = "Article modifié avec succès";
                 $this->redirect('/admin/articles');
             }

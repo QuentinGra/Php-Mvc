@@ -183,11 +183,11 @@ class Article extends Model
     /**
      * Set the value of updatedAt
      *
-     * @param ?DateTime $updatedAt
+     * @param null|DateTime|string $updatedAt
      *
      * @return self
      */
-    public function setUpdatedAt(?DateTime $updatedAt): self
+    public function setUpdatedAt(null|DateTime|string $updatedAt): self
     {
         if (is_string($updatedAt)) {
             $updatedAt = new DateTime($updatedAt);
