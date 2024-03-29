@@ -9,6 +9,7 @@
                         <h2 class="card-title"><?= $article->getTitle(); ?></h2>
                         <p class="card-text"><?= $article->getContent(); ?></p>
                         <p><?= $article->getEnable() ? 'Actif' : 'Inactif'; ?></p>
+                        <p><?= $article->getAuthor()->getFullName(); ?></p>
                         <em class="card-text text-muted"><?= $article->getCreatedAt()->format('Y-m-d'); ?></em>
 
                         <div class="mt-2 d-flex justify-content-between align-items-center flex-wrap">

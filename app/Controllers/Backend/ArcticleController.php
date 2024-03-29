@@ -36,6 +36,7 @@ class ArcticleController extends BaseController
             $title = trim(strip_tags($_POST['title']));
             $content = trim(strip_tags($_POST['content']));
             $enable = isset($_POST['enable']) ? 1 : 0;
+            $userId = $_SESSION['user']['id'];
 
             if (!$this->article->findOneBy(['title' => $title])) {
                 $this->article
@@ -43,6 +44,7 @@ class ArcticleController extends BaseController
                     ->setContent($content)
                     ->setEnable($enable)
                     ->setCreatedAt(new DateTime())
+                    ->setUserId($userId)
                     ->create();
 
                 $_SESSION['messages']['success'] = "Vous avez créé un article";

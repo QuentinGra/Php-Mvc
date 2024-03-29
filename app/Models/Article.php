@@ -15,6 +15,7 @@ class Article extends Model
         protected ?string $slug = null,
         protected ?DateTime $createdAt = null,
         protected ?DateTime $updatedAt = null,
+        protected ?int $userId = null,
     ) {
         $this->table = 'article';
     }
@@ -221,5 +222,41 @@ class Article extends Model
         }
 
         return $text;
+    }
+
+    /**
+     * Get the value of userId
+     *
+     * @return ?int
+     */
+    public function getUserId(): ?int
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set the value of userId
+     *
+     * @param ?int $userId
+     *
+     * @return self
+     */
+    public function setUserId(?int $userId): self
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Select user by userId 
+     *
+     * @return User - firstName and lastName
+     */
+    public function getAuthor(): User
+    {
+        $user = $this->runQuery("SELECT firstName, lastName FROM users WHERE id = :id", ['id' => $this->userId])->fetch();
+
+        return (new User)->hydrate($user);
     }
 }
