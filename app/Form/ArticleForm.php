@@ -12,7 +12,7 @@ class ArticleForm extends Form
         $this->startForm($action, 'POST', [
             'class' => 'card p-3 w-50 mx-auto',
         ])
-            ->startDiv(['class' => ''])
+            ->startDiv(['class' => 'mb-3'])
             ->addLabel('title', 'Title', ['class' => 'form-label'])
             ->addInput('text', 'title', [
                 'class' => 'form-control',
@@ -22,20 +22,18 @@ class ArticleForm extends Form
                 'value' => $article ? $article->getTitle() : null,
             ])
             ->endDiv()
-            ->startDiv(['class' => ''])
+            ->startDiv(['class' => 'mb-3'])
             ->addLabel('content', 'Content', ['class' => 'form-label'])
-            ->addInput('text', 'content', [
+            ->addTextArea('content', $article ? $article->getContent() : null, [
                 'class' => 'form-control',
                 'id' => 'content',
-                'placeholder' => 'Génial',
                 'required' => true,
-                'value' => $article ? $article->getContent() : null,
             ])
             ->endDiv()
-            ->startDiv(['class' => ''])
-            ->addLabel('enable', 'Actif', ['class' => 'form-label'])
+            ->startDiv(['class' => 'form-check mb-3'])
+            ->addLabel('enable', 'Actif', ['class' => 'form-check-label'])
             ->addInput('checkbox', 'enable', [
-                'class' => '',
+                'class' => 'form-check-input',
                 'id' => 'enable',
                 'checked' => $article ? $article->getEnable() : null,
             ])
