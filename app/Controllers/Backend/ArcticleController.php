@@ -93,4 +93,25 @@ class ArcticleController extends BaseController
             ]
         ]);
     }
+
+    #[Route('/admin/articles/delete', 'admin.articles.delete', ['POST'])]
+    public function delete(): void
+    {
+        $article = $this->article->find(!empty($_POST['id']) ? $_POST['id'] : 0);
+
+        if (!$article) {
+            $_SESSION['messages']['danger'] = "Article pas trouvé";
+            $this->redirect('/admin/articles');
+        }
+
+        if (hash_equals($_SESSION['token'], !empty($_POST['token']) ? $_POST['token'] : '')) {
+            $article->delete();
+
+            $_SESSION['messages']['success'] = "Article supprimé avec succès";
+        } else {
+            $_SESSION['messages']['danger'] = "Invalide token CSRF";
+        }
+
+        $this->redirect('/admin/articles');
+    }
 }
