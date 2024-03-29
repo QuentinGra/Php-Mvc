@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Db;
+use DateTime;
 use PDOStatement;
 
 abstract class Model extends Db
@@ -97,11 +98,13 @@ abstract class Model extends Db
         foreach ($this as $key => $value) {
             // On vérifie que la valeur n'est pas null et que la propriété
             // N'est pas table (Pas un champ en BDD)
-            if ($key !== 'table' && $value !== null) {
+            if ($key !== 'table' && $key !== 'db' && $value !== null) {
                 $champs[] = $key;
                 $markers[] = ":$key";
                 if (is_array($value)) {
                     $params[$key] = json_encode($value);
+                } elseif ($value instanceof DateTime) {
+                    $params[$key] = $value->format('Y-m-d H:i:s');
                 } else {
                     $params[$key] = $value;
                 }
@@ -127,11 +130,13 @@ abstract class Model extends Db
         $params = [];
 
         foreach ($this as $key => $value) {
-            if ($key !== 'table' && $key !== 'id' && $value !== null) {
+            if ($key !== 'table' && $key !== 'db' && $key !== 'id' && $value !== null) {
                 $champs[] = "$key = :$key";
 
                 if (is_array($value)) {
                     $params[$key] = json_encode($value);
+                } elseif ($value instanceof DateTime) {
+                    $params[$key] = $value->format('Y-m-d H:i:s');
                 } else {
                     $params[$key] = $value;
                 }
@@ -206,7 +211,7 @@ abstract class Model extends Db
      */
     public function fetchHydrate(mixed $query): static|array|bool
     {
-        if (is_array($query) && count($query) > 1) {
+        if (is_array($query) && count($query) > 0) {
 
             $data = array_map(function (object $object) {
                 return (new static)->hydrate($object);

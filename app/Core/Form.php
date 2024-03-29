@@ -122,6 +122,25 @@ abstract class Form
     }
 
     /**
+     * Ajoute un textarea
+     *
+     * @param string $name
+     * @param string $text
+     * @param array $attributs
+     * @return self
+     */
+    public function addTextArea(string $name, array $attributs = [], ?string $text = null): self
+    {
+        $this->formCode .= "<textarea name=\"$name\"";
+
+        $this->formCode .= !empty($attributs) ? $this->addAttribute($attributs) . '>' : '>';
+
+        $this->formCode .= "$text</textarea>";
+
+        return $this;
+    }
+
+    /**
      * Ajoute les attributs envoyés à la balise html
      *
      * @param array $attributs Tableau associatif (['class' => 'form-control', 'required' => true])

@@ -22,7 +22,7 @@
                                 <div class="dropdown-menu" aria-labelledby="triggerId">
                                     <a class="dropdown-item" href="/admin/users">Users</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Articles</a>
+                                    <a class="dropdown-item" href="/admin/articles">Articles</a>
                                 </div>
                             </div>
                         <?php endif; ?>

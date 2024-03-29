@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Model;
+use DateTime;
 
 class Article extends Model
 {
@@ -10,7 +11,10 @@ class Article extends Model
         protected ?int $id = null,
         protected ?string $title = null,
         protected ?string $content = null,
-        protected ?bool $enable = null
+        protected ?int $enable = null,
+        protected ?string $slug = null,
+        protected ?DateTime $createdAt = null,
+        protected ?DateTime $updatedAt = null,
     ) {
         $this->table = 'article';
     }
@@ -60,6 +64,10 @@ class Article extends Model
     {
         $this->title = $title;
 
+        if ($title) {
+            $this->slug = self::slugify($title);
+        }
+
         return $this;
     }
 
@@ -90,9 +98,9 @@ class Article extends Model
     /**
      * Get the value of enable
      *
-     * @return ?bool
+     * @return ?int
      */
-    public function getEnable(): ?bool
+    public function getEnable(): ?int
     {
         return $this->enable;
     }
@@ -100,14 +108,118 @@ class Article extends Model
     /**
      * Set the value of enable
      *
-     * @param ?bool $enable
+     * @param ?int $enable
      *
      * @return self
      */
-    public function setEnable(?bool $enable): self
+    public function setEnable(?int $enable): self
     {
         $this->enable = $enable;
 
         return $this;
+    }
+
+    /**
+     * Get the value of slug
+     *
+     * @return ?string
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set the value of slug
+     *
+     * @param ?string $slug
+     *
+     * @return self
+     */
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of createdAt
+     *
+     * @return ?DateTime
+     */
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set the value of createdAt
+     *
+     * @param null|string|DateTime $createdAt
+     *
+     * @return self
+     */
+    public function setCreatedAt(null|string|DateTime $createdAt): self
+    {
+        if (is_string($createdAt)) {
+            $createdAt = new DateTime($createdAt);
+        }
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updatedAt
+     *
+     * @return ?DateTime
+     */
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set the value of updatedAt
+     *
+     * @param null|DateTime|string $updatedAt
+     *
+     * @return self
+     */
+    public function setUpdatedAt(null|DateTime|string $updatedAt): self
+    {
+        if (is_string($updatedAt)) {
+            $updatedAt = new DateTime($updatedAt);
+        }
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+    private static function slugify($text, string $divider = '-')
+    {
+        // replace non letter or digits by divider
+        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, $divider);
+
+        // remove duplicate divider
+        $text = preg_replace('~-+~', $divider, $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }
