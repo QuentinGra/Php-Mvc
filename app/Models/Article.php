@@ -10,7 +10,7 @@ class Article extends Model
         protected ?int $id = null,
         protected ?string $title = null,
         protected ?string $content = null,
-        protected ?bool $enable = null
+        protected ?int $enable = null
     ) {
         $this->table = 'article';
     }
@@ -90,9 +90,9 @@ class Article extends Model
     /**
      * Get the value of enable
      *
-     * @return ?bool
+     * @return ?int
      */
-    public function getEnable(): ?bool
+    public function getEnable(): ?int
     {
         return $this->enable;
     }
@@ -100,11 +100,11 @@ class Article extends Model
     /**
      * Set the value of enable
      *
-     * @param ?bool $enable
+     * @param ?int $enable
      *
      * @return self
      */
-    public function setEnable(?bool $enable): self
+    public function setEnable(?int $enable): self
     {
         $this->enable = $enable;
 

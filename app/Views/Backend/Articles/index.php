@@ -19,7 +19,7 @@
                         <td>
                             <div class="d-flex gap-4 flex-wrap align-items-center justify-content-center">
                                 <a href="/admin/articles/<?= $article->getId(); ?>/edit" class="btn btn-warning">Modifier</a>
-                                <form action="/admin/articles/delete" method="post" onsubmit="return confirm('Êtes-vous sùr de vouloir supprimer cet utilisateur ?')">
+                                <form action="/admin/articles/delete" method="post" onsubmit="return confirm('Êtes-vous sùr de vouloir supprimer cet article ?')">
                                     <input type="hidden" name="id" value="<?= $article->getId(); ?>">
                                     <input type="hidden" name="token" value="<?= $_SESSION['token']; ?>">
                                     <button class="btn btn-danger">Supprimer</button>

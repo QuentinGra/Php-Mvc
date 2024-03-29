@@ -3,10 +3,11 @@
 namespace App\Form;
 
 use App\Core\Form;
+use App\Models\Article;
 
 class ArticleForm extends Form
 {
-    public function __construct(string $action)
+    public function __construct(string $action, ?Article $article = null)
     {
         $this->startForm($action, 'POST', [
             'class' => 'card p-3 w-50 mx-auto',
@@ -18,6 +19,7 @@ class ArticleForm extends Form
                 'id' => 'title',
                 'placeholder' => 'Super Titre',
                 'required' => true,
+                'value' => $article ? $article->getTitle() : null,
             ])
             ->endDiv()
             ->startDiv(['class' => ''])
@@ -27,6 +29,7 @@ class ArticleForm extends Form
                 'id' => 'content',
                 'placeholder' => 'Génial',
                 'required' => true,
+                'value' => $article ? $article->getContent() : null,
             ])
             ->endDiv()
             ->startDiv(['class' => ''])
@@ -34,6 +37,7 @@ class ArticleForm extends Form
             ->addInput('checkbox', 'enable', [
                 'class' => '',
                 'id' => 'enable',
+                'checked' => $article ? $article->getEnable() : null,
             ])
             ->endDiv()
             ->addButton('Ajouter', ['class' => 'btn btn-primary'])
