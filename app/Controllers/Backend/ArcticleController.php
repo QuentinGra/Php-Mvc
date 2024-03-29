@@ -14,6 +14,18 @@ class ArcticleController extends BaseController
     ) {
     }
 
+    #[Route('/admin/articles', 'admin.articles.index', ['GET'])]
+    public function index(): void
+    {
+        $_SESSION['token'] = bin2hex(random_bytes(80));
+        $this->render('/Backend/Articles/index.php', [
+            'articles' => $this->article->findAll(),
+            'meta' => [
+                'title' => 'Administration des articles',
+            ]
+        ]);
+    }
+
     #[Route('/admin/articles/create', 'admin.articles.create', ['GET', 'POST'])]
     public function create(): void
     {

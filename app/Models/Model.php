@@ -206,7 +206,7 @@ abstract class Model extends Db
      */
     public function fetchHydrate(mixed $query): static|array|bool
     {
-        if (is_array($query) && count($query) > 1) {
+        if (is_array($query) && count($query) > 0) {
 
             $data = array_map(function (object $object) {
                 return (new static)->hydrate($object);
