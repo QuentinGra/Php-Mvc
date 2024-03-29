@@ -2,10 +2,11 @@
 
 namespace App\Controllers\Backend;
 
-use App\Core\BaseController;
+use DateTime;
 use App\Core\Route;
-use App\Form\ArticleForm;
 use App\Models\Article;
+use App\Form\ArticleForm;
+use App\Core\BaseController;
 
 class ArcticleController extends BaseController
 {
@@ -36,14 +37,19 @@ class ArcticleController extends BaseController
             $content = trim(strip_tags($_POST['content']));
             $enable = isset($_POST['enable']) ? 1 : 0;
 
-            (new Article)
-                ->setTitle($title)
-                ->setContent($content)
-                ->setEnable($enable)
-                ->create();
+            if (!$this->article->findOneBy(['title' => $title])) {
+                $this->article
+                    ->setTitle($title)
+                    ->setContent($content)
+                    ->setEnable($enable)
+                    ->setCreatedAt(new DateTime())
+                    ->create();
 
-            $_SESSION['messages']['success'] = "Vous avez créé un article";
-            $this->redirect('/admin/articles');
+                $_SESSION['messages']['success'] = "Vous avez créé un article";
+                $this->redirect('/admin/articles');
+            } else {
+                $_SESSION['messages']['danger'] = "Ce titre existe déjà";
+            }
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['messages']['danger'] = "Veuillez remplir tous les champs obligatoires";
         }
@@ -73,14 +79,18 @@ class ArcticleController extends BaseController
             $content = trim(strip_tags($_POST['content']));
             $enable = isset($_POST['enable']) ? 1 : 0;
 
-            $article
-                ->setTitle($title)
-                ->setContent($content)
-                ->setEnable($enable)
-                ->update();
-
-            $_SESSION['messages']['success'] = "Article modifié avec succès";
-            $this->redirect('/admin/articles');
+            if ($title !== $article->getTitle() && !$this->article->findOneBy(['title' => $title])) {
+                $_SESSION['messages']['danger'] = "Ce titre est déjà utilisé par un autre article";
+            } else {
+                $article
+                    ->setTitle($title)
+                    ->setContent($content)
+                    ->setEnable($enable)
+                    ->setUpdatedAt(new DateTime)
+                    ->update();
+                $_SESSION['messages']['success'] = "Article modifié avec succès";
+                $this->redirect('/admin/articles');
+            }
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['messages']['danger'] = "Veuillez remplir tous les champs obligatoires";
         }

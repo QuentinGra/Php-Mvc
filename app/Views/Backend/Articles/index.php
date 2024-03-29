@@ -7,6 +7,7 @@
                     <th scope="col">Id</th>
                     <th scope="col">Title</th>
                     <th scope="col">Content</th>
+                    <th scope="col">Actif</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -16,6 +17,7 @@
                         <td scope="row"><?= $article->getId(); ?></td>
                         <td><?= $article->getTitle(); ?></td>
                         <td><?= $article->getContent(); ?></td>
+                        <td><?= $article->getEnable() ? 'Actif' : 'Inactif'; ?></td>
                         <td>
                             <div class="d-flex gap-4 flex-wrap align-items-center justify-content-center">
                                 <a href="/admin/articles/<?= $article->getId(); ?>/edit" class="btn btn-warning">Modifier</a>
