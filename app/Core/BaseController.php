@@ -22,6 +22,13 @@ abstract class BaseController
         require_once ROOT . '/Views/base.php';
     }
 
+    /**
+     * Redirect
+     *
+     * @param string $url
+     * @param integer $code - default 302
+     * @return void
+     */
     protected function redirect(string $url, int $code = 302): void
     {
         http_response_code($code);
