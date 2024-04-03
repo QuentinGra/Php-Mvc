@@ -46,15 +46,25 @@ class User extends Model
         return $this;
     }
 
-    public function findForSelect(): array
+    public function findForSelect(?int $userId = null): array
     {
         $users = $this->findAll();
 
-        $choices = [];
+        $choices = [
+            '0' => [
+                'label' => 'Sélectionner un auteur',
+                'attributs' => [
+                    'disabled' => true,
+                ]
+            ]
+        ];
 
         foreach ($users as $user) {
             $choices[$user->getId()] = [
                 'label' => $user->getFullName(),
+                'attributs' => [
+                    'selected' => $user->getId() === $userId ? true : false,
+                ]
             ];
         }
 

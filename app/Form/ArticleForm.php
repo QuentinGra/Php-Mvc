@@ -38,7 +38,7 @@ class ArticleForm extends Form
                 ->addLabel('user', 'Auteur', ['class' => 'form-label'])
                 ->addSelect(
                     'user',
-                    $this->user->findForSelect(),
+                    $this->user->findForSelect($article ? $article->getUserId() : null),
                     [
                         'class' => 'form-control',
                         'id' => 'user',
