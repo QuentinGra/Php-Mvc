@@ -4,11 +4,12 @@ namespace App\Form;
 
 use App\Core\Form;
 use App\Models\Article;
+use App\Models\Categorie;
 use App\Models\User;
 
 class ArticleForm extends Form
 {
-    public function __construct(string $action, ?Article $article = null, private User $user = new User)
+    public function __construct(string $action, ?Article $article = null, private User $user = new User, private Categorie $categorie = new Categorie)
     {
         $this->startForm($action, 'POST', [
             'class' => 'card p-3 w-50 mx-auto',
@@ -42,6 +43,17 @@ class ArticleForm extends Form
                     [
                         'class' => 'form-control',
                         'id' => 'user',
+                    ]
+                )
+                ->endDiv()
+                ->startDiv(['class' => 'mb-3'])
+                ->addLabel('categorie', 'Categories', ['class' => 'form-label'])
+                ->addSelect(
+                    'categorie',
+                    $this->categorie->findForSelect($article ? $article->getCategorieId() : null),
+                    [
+                        'class' => 'form-control',
+                        'id' => 'categorie',
                     ]
                 )
                 ->endDiv();

@@ -83,6 +83,7 @@ class ArcticleController extends BaseController
             $content = trim(strip_tags($_POST['content']));
             $enable = isset($_POST['enable']) ? 1 : 0;
             $userId = $_POST['user'];
+            $categorieId = $_POST['categorie'];
 
             if ($title !== $article->getTitle() && !$this->article->findOneBy(['title' => $title])) {
                 $_SESSION['messages']['danger'] = "Ce titre est déjà utilisé par un autre article";
@@ -93,6 +94,7 @@ class ArcticleController extends BaseController
                     ->setEnable($enable)
                     ->setUpdatedAt(new DateTime)
                     ->setUserId($userId)
+                    ->setCategorieId($categorieId)
                     ->update();
 
                 $_SESSION['messages']['success'] = "Article modifié avec succès";

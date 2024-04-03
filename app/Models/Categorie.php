@@ -142,4 +142,35 @@ class Categorie extends Model
 
         return $this;
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param integer|null $categorieId
+     * @return array
+     */
+    public function findForSelect(?int $categorieId = null): array
+    {
+        $categories = $this->findAll();
+
+        $choices = [
+            '0' => [
+                'label' => 'Sélectionner un auteur',
+                'attributs' => [
+                    'disabled' => true,
+                ]
+            ]
+        ];
+
+        foreach ($categories as $categorie) {
+            $choices[$categorie->getId()] = [
+                'label' => $categorie->getTitle(),
+                'attributs' => [
+                    'selected' => $categorie->getId() === $categorieId ? true : false,
+                ]
+            ];
+        }
+
+        return $choices;
+    }
 }

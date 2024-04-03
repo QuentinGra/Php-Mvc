@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Model;
 use DateTime;
+use App\Models\Model;
+use App\Models\Categorie;
 
 class Article extends Model
 {
@@ -16,6 +17,7 @@ class Article extends Model
         protected ?DateTime $createdAt = null,
         protected ?DateTime $updatedAt = null,
         protected ?int $userId = null,
+        protected ?int $categorieId = null,
     ) {
         $this->table = 'article';
     }
@@ -250,6 +252,30 @@ class Article extends Model
     }
 
     /**
+     * Get the value of categorieId
+     *
+     * @return ?int
+     */
+    public function getCategorieId(): ?int
+    {
+        return $this->categorieId;
+    }
+
+    /**
+     * Set the value of categorieId
+     *
+     * @param ?int $categorieId
+     *
+     * @return self
+     */
+    public function setCategorieId(?int $categorieId): self
+    {
+        $this->categorieId = $categorieId;
+
+        return $this;
+    }
+
+    /**
      * Select user by userId 
      *
      * @return User - firstName and lastName
@@ -259,5 +285,12 @@ class Article extends Model
         $user = $this->runQuery("SELECT firstName, lastName FROM users WHERE id = :id", ['id' => $this->userId])->fetch();
 
         return (new User)->hydrate($user);
+    }
+
+    public function getCategorie(): Categorie
+    {
+        $categorie = $this->runQuery("SELECT title FROM categories WHERE id = :id", ['id' => $this->categorieId])->fetch();
+
+        return (new Categorie)->hydrate($categorie);
     }
 }

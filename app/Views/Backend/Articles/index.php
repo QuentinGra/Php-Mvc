@@ -9,6 +9,7 @@
                         <h2 class="card-title"><?= $article->getTitle(); ?></h2>
                         <p class="card-text"><?= $article->getContent(); ?></p>
                         <p><?= $article->getAuthor()->getFullName(); ?></p>
+                        <p><?= $article->getCategorie()->getTitle(); ?></p>
                         <em class="card-text text-muted"><?= $article->getCreatedAt()->format('Y-m-d'); ?></em>
 
                         <div class="form-check form-switch">
