@@ -23,6 +23,30 @@ class Article extends Model
     }
 
     /**
+     * Select user by userId 
+     *
+     * @return User - firstName and lastName
+     */
+    public function getAuthor(): User
+    {
+        $user = $this->runQuery("SELECT firstName, lastName FROM users WHERE id = :id", ['id' => $this->userId])->fetch();
+
+        return (new User)->hydrate($user);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return Categorie
+     */
+    public function getCategorie(): Categorie
+    {
+        $categorie = $this->runQuery("SELECT title FROM categories WHERE id = :id", ['id' => $this->categorieId])->fetch();
+
+        return (new Categorie)->hydrate($categorie);
+    }
+
+    /**
      * Get the value of id
      *
      * @return ?int
@@ -273,24 +297,5 @@ class Article extends Model
         $this->categorieId = $categorieId;
 
         return $this;
-    }
-
-    /**
-     * Select user by userId 
-     *
-     * @return User - firstName and lastName
-     */
-    public function getAuthor(): User
-    {
-        $user = $this->runQuery("SELECT firstName, lastName FROM users WHERE id = :id", ['id' => $this->userId])->fetch();
-
-        return (new User)->hydrate($user);
-    }
-
-    public function getCategorie(): Categorie
-    {
-        $categorie = $this->runQuery("SELECT title FROM categories WHERE id = :id", ['id' => $this->categorieId])->fetch();
-
-        return (new Categorie)->hydrate($categorie);
     }
 }
