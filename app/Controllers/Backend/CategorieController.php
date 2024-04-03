@@ -63,5 +63,40 @@ class CategorieController extends BaseController
     #[Route('/admin/categories/([0-9]+)/edit', 'admin.categories.edit', ['GET', 'POST'])]
     public function edit(int $id): void
     {
+        $categorie = $this->categorie->find($id);
+
+        if (!$categorie) {
+            $_SESSION['messages']['danger'] = "Catégorie non trouvé";
+            $this->redirect('/admin/categories');
+        }
+
+        $form = new CategorieForm($_SERVER['REQUEST_URI'], $categorie);
+
+        if ($form->validate($_POST, ['title'])) {
+            $title = trim(strip_tags($_POST['title']));
+            $enable = isset($_POST['enable']) ? 1 : 0;
+
+            if ($title !== $categorie->getTitle() && !$this->categorie->findOneBy(['title' => $title])) {
+                $_SESSION['messages']['danger'] = "Ce titre est déjà dans la db";
+            } else {
+                $this->categorie
+                    ->setTitle($title)
+                    ->setEnable($enable)
+                    ->setUpdatedAt(new DateTime())
+                    ->update();
+
+                $this->redirect('/admin/categories');
+            }
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $_SESSION['messages']['danger'] = "Veuillez remplir tous les champs obligatoires";
+        }
+
+        $this->render('/Backend/Categories/edit.php', [
+            'form' => $form->createView(),
+            'categorie' => $categorie,
+            'meta' => [
+                'title' => 'Modification d\'une categorie',
+            ]
+        ]);
     }
 }
