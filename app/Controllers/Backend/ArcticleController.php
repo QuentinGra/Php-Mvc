@@ -23,6 +23,9 @@ class ArcticleController extends BaseController
             'articles' => $this->article->findAll(),
             'meta' => [
                 'title' => 'Administration des articles',
+                'js' => [
+                    '/assets/js/switchArticle.js',
+                ]
             ]
         ]);
     }
@@ -127,5 +130,20 @@ class ArcticleController extends BaseController
         }
 
         $this->redirect('/admin/articles');
+    }
+
+    #[Route('/admin/articles/([0-9]+)/switch', 'admin.articles.switch', ['GET'])]
+    public function switch(int $id): void
+    {
+        header('Content-Type:application/json');
+        $article = $this->article->find($id);
+
+        if (!$article) {
+            echo json_encode([
+                'status' => 404,
+                'message' => 'Article non trouvé',
+            ]);
+            exit();
+        }
     }
 }
