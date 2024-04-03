@@ -39,11 +39,11 @@ class Article extends Model
      *
      * @return Categorie
      */
-    public function getCategorie(): Categorie
+    public function getCategorie(): ?Categorie
     {
         $categorie = $this->runQuery("SELECT title FROM categories WHERE id = :id", ['id' => $this->categorieId])->fetch();
 
-        return (new Categorie)->hydrate($categorie);
+        return $categorie ? (new Categorie)->hydrate($categorie) : null;
     }
 
     /**

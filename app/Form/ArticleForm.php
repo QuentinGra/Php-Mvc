@@ -24,6 +24,18 @@ class ArticleForm extends Form
                 'value' => $article ? $article->getTitle() : null,
             ])
             ->endDiv()
+            ->endDiv()
+            ->startDiv(['class' => 'mb-3'])
+            ->addLabel('categorie', 'Categories', ['class' => 'form-label'])
+            ->addSelect(
+                'categorie',
+                $this->categorie->findForSelect($article ? $article->getCategorieId() : null),
+                [
+                    'class' => 'form-control',
+                    'id' => 'categorie',
+                ]
+            )
+            ->endDiv()
             ->startDiv(['class' => 'mb-3'])
             ->addLabel('content', 'Content', ['class' => 'form-label'])
             ->addTextArea('content', [
@@ -44,19 +56,7 @@ class ArticleForm extends Form
                         'class' => 'form-control',
                         'id' => 'user',
                     ]
-                )
-                ->endDiv()
-                ->startDiv(['class' => 'mb-3'])
-                ->addLabel('categorie', 'Categories', ['class' => 'form-label'])
-                ->addSelect(
-                    'categorie',
-                    $this->categorie->findForSelect($article ? $article->getCategorieId() : null),
-                    [
-                        'class' => 'form-control',
-                        'id' => 'categorie',
-                    ]
-                )
-                ->endDiv();
+                );
         }
         $this->startDiv(['class' => 'form-check mb-3'])
             ->addLabel('enable', 'Actif', ['class' => 'form-check-label'])
