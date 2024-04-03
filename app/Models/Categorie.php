@@ -2,22 +2,19 @@
 
 namespace App\Models;
 
-use App\Models\Model;
 use DateTime;
+use App\Models\Model;
 
-class Article extends Model
+class Categorie extends Model
 {
     public function __construct(
         protected ?int $id = null,
         protected ?string $title = null,
-        protected ?string $content = null,
         protected ?int $enable = null,
-        protected ?string $slug = null,
         protected ?DateTime $createdAt = null,
         protected ?DateTime $updatedAt = null,
-        protected ?int $userId = null,
     ) {
-        $this->table = 'article';
+        $this->table = 'categories';
     }
 
     /**
@@ -65,34 +62,6 @@ class Article extends Model
     {
         $this->title = $title;
 
-        if ($title) {
-            $this->slug = self::slugify($title);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get the value of content
-     *
-     * @return ?string
-     */
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    /**
-     * Set the value of content
-     *
-     * @param ?string $content
-     *
-     * @return self
-     */
-    public function setContent(?string $content): self
-    {
-        $this->content = $content;
-
         return $this;
     }
 
@@ -116,30 +85,6 @@ class Article extends Model
     public function setEnable(?int $enable): self
     {
         $this->enable = $enable;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of slug
-     *
-     * @return ?string
-     */
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set the value of slug
-     *
-     * @param ?string $slug
-     *
-     * @return self
-     */
-    public function setSlug(?string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }
@@ -196,68 +141,5 @@ class Article extends Model
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-    private static function slugify($text, string $divider = '-')
-    {
-        // replace non letter or digits by divider
-        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
-
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-
-        // trim
-        $text = trim($text, $divider);
-
-        // remove duplicate divider
-        $text = preg_replace('~-+~', $divider, $text);
-
-        // lowercase
-        $text = strtolower($text);
-
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
-    }
-
-    /**
-     * Get the value of userId
-     *
-     * @return ?int
-     */
-    public function getUserId(): ?int
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set the value of userId
-     *
-     * @param ?int $userId
-     *
-     * @return self
-     */
-    public function setUserId(?int $userId): self
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Select user by userId 
-     *
-     * @return User - firstName and lastName
-     */
-    public function getAuthor(): User
-    {
-        $user = $this->runQuery("SELECT firstName, lastName FROM users WHERE id = :id", ['id' => $this->userId])->fetch();
-
-        return (new User)->hydrate($user);
     }
 }
