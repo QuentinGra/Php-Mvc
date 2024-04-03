@@ -139,11 +139,23 @@ class ArcticleController extends BaseController
         $article = $this->article->find($id);
 
         if (!$article) {
+            http_response_code(404);
             echo json_encode([
                 'status' => 404,
                 'message' => 'Article non trouvé',
             ]);
             exit();
         }
+
+        $article
+            ->setEnable(!$article->getEnable())
+            ->update();
+
+        http_response_code(201);
+        echo json_encode([
+            'status' => 201,
+            'message' => 'Visibility changed',
+            'enable' => (bool) $article->getEnable(),
+        ]);
     }
 }
