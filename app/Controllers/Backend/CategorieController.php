@@ -142,6 +142,7 @@ class CategorieController extends BaseController
 
         $categorie
             ->setEnable(!$categorie->getEnable())
+            ->setUpdatedAt(new DateTime())
             ->update();
 
         http_response_code(201);

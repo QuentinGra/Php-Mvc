@@ -149,6 +149,7 @@ class ArcticleController extends BaseController
 
         $article
             ->setEnable(!$article->getEnable())
+            ->setUpdatedAt(new DateTime())
             ->update();
 
         http_response_code(201);
