@@ -23,6 +23,9 @@ class CategorieController extends BaseController
             'categories' => $this->categorie->findAll(),
             'meta' => [
                 'title' => 'Administration des catégories',
+                'js' => [
+                    '/assets/js/switchCategories.js',
+                ]
             ]
         ]);
     }
@@ -76,15 +79,16 @@ class CategorieController extends BaseController
             $title = trim(strip_tags($_POST['title']));
             $enable = isset($_POST['enable']) ? 1 : 0;
 
-            if ($title !== $categorie->getTitle() && !$this->categorie->findOneBy(['title' => $title])) {
+            if ($title !== $categorie->getTitle() && $this->categorie->findOneBy(['title' => $title])) {
                 $_SESSION['messages']['danger'] = "Ce titre est déjà dans la db";
             } else {
-                $this->categorie
+                $categorie
                     ->setTitle($title)
                     ->setEnable($enable)
                     ->setUpdatedAt(new DateTime())
                     ->update();
 
+                $_SESSION['messages']['success'] = "Catégorie modifiée";
                 $this->redirect('/admin/categories');
             }
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -97,6 +101,54 @@ class CategorieController extends BaseController
             'meta' => [
                 'title' => 'Modification d\'une categorie',
             ]
+        ]);
+    }
+
+    #[Route('/admin/categories/delete', 'admin.categories.delete', ['POST'])]
+    public function delete(): void
+    {
+        $categorie = $this->categorie->find(!empty($_POST['id']) ? $_POST['id'] : 0);
+
+        if (!$categorie) {
+            $_SESSION['messages']['danger'] = "Catégorie pas trouvé";
+            $this->redirect('/admin/categories');
+        }
+
+        if (hash_equals($_SESSION['token'], !empty($_POST['token']) ? $_POST['token'] : '')) {
+            $categorie->delete();
+
+            $_SESSION['messages']['success'] = "Catégorie supprimé avec succès";
+        } else {
+            $_SESSION['messages']['danger'] = "Invalide token CSRF";
+        }
+
+        $this->redirect('/admin/categories');
+    }
+
+    #[Route('/admin/categories/([0-9]+)/switch', 'admin.categories.switch', ['GET'])]
+    public function switch(int $id): void
+    {
+        header('Content-Type:application/json');
+        $categorie = $this->categorie->find($id);
+
+        if (!$categorie) {
+            http_response_code(404);
+            echo json_encode([
+                'status' => 404,
+                'message' => 'Categorie non trouvé',
+            ]);
+            exit();
+        }
+
+        $categorie
+            ->setEnable(!$categorie->getEnable())
+            ->update();
+
+        http_response_code(201);
+        echo json_encode([
+            'status' => 201,
+            'message' => 'Visibility changed',
+            'enable' => (bool) $categorie->getEnable(),
         ]);
     }
 }

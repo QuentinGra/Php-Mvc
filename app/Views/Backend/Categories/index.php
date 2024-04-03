@@ -10,7 +10,7 @@
                         <em class="card-text text-muted"><?= $categorie->getCreatedAt()->format('Y-m-d'); ?></em>
 
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="switch-><?= $categorie->getId(); ?>" <?= $categorie->getEnable() ? 'checked' : null; ?> data-switch-article-id="<?= $categorie->getId(); ?>" />
+                            <input class="form-check-input" type="checkbox" id="switch-><?= $categorie->getId(); ?>" <?= $categorie->getEnable() ? 'checked' : null; ?> data-switch-categorie-id="<?= $categorie->getId(); ?>" />
                             <label class="form-check-label text-<?= $categorie->getEnable() ? 'success' : 'danger'; ?>" for="switch-><?= $categorie->getId(); ?>"><?= $categorie->getEnable() ? 'Actif' : 'Inactif'; ?></label>
                         </div>
 
