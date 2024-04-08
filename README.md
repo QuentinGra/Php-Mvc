@@ -1,6 +1,6 @@
-# Php MVC.
+# Php MVC
 
-App MVC
+## App MVC
 - Users
 - Articles
 - Categories
